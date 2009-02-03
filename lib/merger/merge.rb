@@ -2,11 +2,11 @@ module Merger
   class Merge
     attr_reader :keep, :duplicates, :options
   
-    def initialize(*records)
-      @options = records.extract_options!
-      records = records.flatten.uniq
-      @keep = options[:keep] || records.sort_by(&:id).first
-      @duplicates = records - [@keep]
+    def initialize(*args)
+      @options = args.extract_options!
+      @duplicates = args.flatten.uniq
+      @keep = @options[:keep] || @duplicates.sort_by(&:id).first
+      @duplicates.delete(@keep)
     end
   
     def associations!
